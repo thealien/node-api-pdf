@@ -2,7 +2,7 @@ var path = require('path');
 var phantomBridge = require('phantom-bridge');
 
 var distUrl = 'https://nodejs.org/dist/';
-var docs = [/*{
+var docs = [{
     version: 'latest-v0.12.x',
     pagePrepare: function () {
         var doc = document;
@@ -11,12 +11,12 @@ var docs = [/*{
         doc.getElementById('footer').style.display = 'none';
         doc.getElementById('column1').style.width = '1024px';
     }
-},*/ {
+}, {
     version: 'latest-v6.x',
     pagePrepare: function () {
         var doc = document;
-        doc.getElementsByTagName('html')[0].style.height = 'auto'
-        doc.body.style.height = 'auto'
+        doc.getElementsByTagName('html')[0].style.height = 'auto';
+        doc.body.style.height = 'auto';
         doc.getElementById('gtoc').style.display = 'none';
         doc.getElementById('column2').style.display = 'none';
         doc.getElementById('column1').style.marginLeft = '0';
@@ -30,7 +30,7 @@ docs.forEach(function (doc) {
     }
     pagePrepare = JSON.stringify(pagePrepare);
     var cp = phantomBridge(path.join(__dirname, 'rasterize.js'), [
-        distUrl + doc.version + '/docs/api/index.html',
+        distUrl + doc.version + '/docs/api/all.html',
         'out/' + doc.version + '.pdf',
         '1024*768',
         pagePrepare,

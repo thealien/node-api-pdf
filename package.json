@@ -1,0 +1,9 @@
+{
+  "name": "node-api-pdf",
+  "version": "0.0.1",
+  "main": "index.js",
+  "dependencies": {
+    "configaro": "0.0.2",
+    "node-phantom": "^0.2.5"
+  }
+}

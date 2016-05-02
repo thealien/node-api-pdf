@@ -1,9 +1,20 @@
 {
   "name": "node-api-pdf",
+  "description": "Simple utility to create PDF version of Node.js API docs",
   "version": "0.0.1",
-  "main": "index.js",
+  "author": "Roman Ziva <roman.ziva@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thealien/node-api-pdf"
+  },
+  "keywords": [
+    "pdf",
+    "docs",
+    "API"
+  ],
   "dependencies": {
-    "configaro": "0.0.2",
-    "node-phantom": "^0.2.5"
+    "configaro": "^0.0.3",
+    "phantom-bridge": "^2.0.1"
   }
 }

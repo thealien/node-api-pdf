@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-    out: '/home/alien/torrents/nodejs',
+    out: './out',
     stdOut: process.stdout,
 
     paperSize: {

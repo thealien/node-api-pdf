@@ -1,84 +1,67 @@
 "use strict";
 
+var _010_012 = {
+    hide: [
+        '#nav',
+        '#footer',
+        '#column2'
+    ],
+
+    style: {
+        "#column1": {
+            width: '900px'
+        },
+        '#content-wrap': {
+            'padding': '0'
+        },
+        'body': {
+            background: 'none'
+        }
+    }
+};
+
+var _4_5_6 = {
+    hide: [
+        '#gtoc',
+        '#column2'
+    ],
+    style: {
+        html: {
+            height: 'auto'
+        },
+        body: {
+            height: 'auto'
+        },
+        "#column1": {
+            marginLeft: '0'
+        }
+    }
+};
+
 module.exports = {
 
     'latest-v0.10.x': {
-        hide: [
-            '#nav',
-            '#footer',
-            '#column2'
-        ],
-        style: {
-            "#column1": {
-                width: '100%'
-            }
-        }
+        hide: _010_012.hide,
+        style: _010_012.style
     },
 
     'latest-v0.12.x': {
-        hide: [
-            '#nav',
-            '#footer',
-            '#column2'
-        ],
-        style: {
-            "#column1": {
-                width: '100%'
-            }
-        }
+        hide: _010_012.hide,
+        style: _010_012.style
     },
 
     'latest-v4.x': {
-        hide: [
-            '#gtoc',
-            '#column2'
-        ],
-        style: {
-            html: {
-                height: 'auto'
-            },
-            body: {
-                height: 'auto'
-            },
-            "#column1": {
-                marginLeft: '0'
-            }
-        }
+        hide: _4_5_6.hide,
+        style: _4_5_6.style
     },
 
     'latest-v5.x': {
-        hide: [
-            '#gtoc',
-            '#column2'
-        ],
-        style: {
-            html: {
-                height: 'auto'
-            },
-            body: {
-                height: 'auto'
-            },
-            "#column1": {
-                marginLeft: '0'
-            }
-        }
+        hide: _4_5_6.hide,
+        style: _4_5_6.style
     },
 
     'latest-v6.x': {
-        hide: [
-            '#gtoc',
-            '#column2'
-        ],
-        style: {
-            html: {
-                height: 'auto'
-            },
-            body: {
-                height: 'auto'
-            },
-            "#column1": {
-                marginLeft: '0'
-            }
-        }
+        hide: _4_5_6.hide,
+        style: _4_5_6.style
     }
 };

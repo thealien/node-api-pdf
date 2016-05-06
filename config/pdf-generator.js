@@ -2,7 +2,6 @@
 
 module.exports = {
     out: './out',
-    stdOut: process.stdout,
 
     paperSize: {
         width: '900',

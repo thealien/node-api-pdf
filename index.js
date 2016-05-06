@@ -1,9 +1,30 @@
 "use strict";
+var async = require('async'),
+    util = require('util');
 
 var config = require('./config'),
-    pdfGenerator = require('./lib/pdf-generator').create(config.pdfGenerator),
-    docs = config.docs;
+    PdfGenerator = require('./lib/pdf-generator'),
+    pdf, docs, tasks;
 
-Object.keys(docs).forEach(function (version) {
-    pdfGenerator.gen(version, docs[version]);
+docs = config.docs;
+pdf = PdfGenerator.create(config.pdfGenerator);
+
+tasks = Object.keys(docs).map(function (version) {
+    var renderOptions = docs[version];
+
+    return function (callback) {
+
+        pdf.gen(version, renderOptions)
+            .then(function (result) {
+                console.log(util.format('Success: %s', result));
+                callback();
+            })
+            .catch(function (error) {
+                console.error(error);
+                callback();
+            });
+    };
+
 });
+
+async.series(tasks);

@@ -9,13 +9,13 @@ var _010_012 = {
 
     style: {
         "#column1": {
-            width: '900px'
+            width: '880px'
         },
         '#content-wrap': {
-            'padding': '0'
+            padding: '0'
         },
         'body': {
-            background: 'none'
+            background: 'white'
         }
     }
 };
@@ -33,7 +33,7 @@ var _4_5_6 = {
             height: 'auto'
         },
         "#column1": {
-            marginLeft: '0'
+            margin: 0
         }
     }
 };

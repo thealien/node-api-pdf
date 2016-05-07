@@ -1,7 +1,7 @@
 {
   "name": "node-api-pdf",
   "description": "Simple utility to create PDF version of Node.js API docs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Roman Ziva <roman.ziva@gmail.com>",
   "license": "MIT",
   "repository": {

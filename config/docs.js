@@ -60,11 +60,10 @@ module.exports = {
         hide: _4_next.hide,
         style: _4_next.style
     },
-
+    */
     'latest-v6.x': {
-        hide: _4_next.hide,
-        style: _4_next.style
-    },*/
+        enabled: false
+    },
 
     'latest-v8.x': {
         enabled: false

@@ -1,5 +1,6 @@
-"use strict";
+'use strict';
 
+/* DISABLED FOR THE FUTURE
 var _010_012 = {
     hide: [
         '#nav',
@@ -37,6 +38,7 @@ var _4_next = {
         }
     }
 };
+*/
 
 module.exports = {
     /*'latest-v0.10.x': {
@@ -65,13 +67,12 @@ module.exports = {
     },*/
 
     'latest-v8.x': {
-        hide: _4_next.hide,
-        style: _4_next.style
+        enabled: false
     },
 
     'latest-v9.x': {
-        hide: _4_next.hide,
-        style: _4_next.style
-    }
+        enabled: false
+    },
 
+    latest: {}
 };

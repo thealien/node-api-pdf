@@ -13,7 +13,7 @@ const promiseSerial = funcs =>
         Promise.resolve([])
     );
 
-const tasks = Object.keys(docs).map(version => {
+const tasks = Object.keys(docs).filter(version => docs[version].enabled !== false).map(version => {
     const renderOptions = docs[version];
     return () => pdf.gen(version, renderOptions)
         .then(result => result)

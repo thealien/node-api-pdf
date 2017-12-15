@@ -1,31 +1,25 @@
-"use strict";
-var async = require('async'),
-    numeral = require('numeral'),
-    util = require('util');
+'use strict';
 
-var config = require('./config'),
-    PdfGenerator = require('./lib/pdf-generator'),
-    pdf, docs, tasks;
+const PdfGenerator = require('./lib/pdf-generator');
 
-docs = config.docs;
-pdf = PdfGenerator.create(config.pdfGenerator);
+const config = require('./config');
+const docs = config.docs;
+const pdf = PdfGenerator.create(config.pdfGenerator);
 
-tasks = Object.keys(docs).map(function (version) {
-    var renderOptions = docs[version];
+// thx to https://hackernoon.com/functional-javascript-resolving-promises-sequentially-7aac18c4431e
+const promiseSerial = funcs =>
+    funcs.reduce(
+        (promise, func) => promise.then(result => func().then(Array.prototype.concat.bind(result))),
+        Promise.resolve([])
+    );
 
-    return function (callback) {
-        var startTime = Date.now();
-        pdf.gen(version, renderOptions)
-            .then(function (result) {
-                console.log(util.format('PDF file created: %s | Time taken: %s', result, numeral((Date.now() - startTime)/1000).format('00:00')));
-                callback();
-            })
-            .catch(function (error) {
-                console.error(error);
-                callback();
-            });
-    };
-
+const tasks = Object.keys(docs).map(version => {
+    const renderOptions = docs[version];
+    return () => pdf.gen(version, renderOptions)
+        .then(result => result)
+        .catch(error => console.error(error));
 });
 
-async.series(tasks);
+promiseSerial(tasks)
+    .then(result => console.log(`All done:\n - ${result.join("\n - ")}`))
+    .catch(console.error.bind(console));

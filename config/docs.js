@@ -14,13 +14,13 @@ var _010_012 = {
         '#content-wrap': {
             padding: '0'
         },
-        'body': {
+        body: {
             background: 'white'
         }
     }
 };
 
-var _4_5_6 = {
+var _4_next = {
     hide: [
         '#gtoc',
         '#column2'
@@ -39,8 +39,7 @@ var _4_5_6 = {
 };
 
 module.exports = {
-
-    'latest-v0.10.x': {
+    /*'latest-v0.10.x': {
         hide: _010_012.hide,
         style: _010_012.style
     },
@@ -51,17 +50,28 @@ module.exports = {
     },
 
     'latest-v4.x': {
-        hide: _4_5_6.hide,
-        style: _4_5_6.style
+        hide: _4_next.hide,
+        style: _4_next.style
     },
 
     'latest-v5.x': {
-        hide: _4_5_6.hide,
-        style: _4_5_6.style
+        hide: _4_next.hide,
+        style: _4_next.style
     },
 
     'latest-v6.x': {
-        hide: _4_5_6.hide,
-        style: _4_5_6.style
+        hide: _4_next.hide,
+        style: _4_next.style
+    },*/
+
+    'latest-v8.x': {
+        hide: _4_next.hide,
+        style: _4_next.style
+    },
+
+    'latest-v9.x': {
+        hide: _4_next.hide,
+        style: _4_next.style
     }
+
 };

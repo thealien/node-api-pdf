@@ -1,6 +1,6 @@
 'use strict';
 
-const PdfGenerator = require('./lib/pdf-generator');
+const PdfGenerator = require('./src/pdf-generator');
 
 const config = require('./config');
 const docs = config.docs;

@@ -3,6 +3,7 @@
 const PdfGenerator = require('./src/pdf-generator');
 const promiseSerial = require('./src/promise-serial');
 const program = require('commander');
+const MODULE_NAME = 'node-api-pdf';
 
 const defaultConfig = require('./config.js');
 const customConfig = {};
@@ -27,6 +28,24 @@ program.option('-x, --use-xvfb', 'Use it if run on system without a graphical en
     '(like "sudo apt-get install xvfb" or equivalent)');
 program.option('-c, --config <customConfigFile>', 'Custom config file (js/json) where listed Node.js versions and ' +
     'render options. Example available in documentation or check "config.js" file placed in module distr');
+
+program.on('--help', () => {
+    console.log(`
+
+  Examples:
+
+    $ ${MODULE_NAME}                                          Create pdf for installed Node.js version
+    $ ${MODULE_NAME} current                                  ...the same...
+    $ ${MODULE_NAME} 8 --output ~/node-docs/                  Create pdf for Node.js latest 8.x and save to ~/node-docs/
+    $ ${MODULE_NAME} latest --use-xvfb                        Create pdf for Node.js latest version and use xvfb because
+                                                            of system has not graphical environment
+    $ ${MODULE_NAME} 6 8 9 -x --config ~/custom-config.json  Create pdf for Node.js latest versions of 6.x, 8.x and 9.x
+                                                            using xvfb and config from ~/custom-config.json 
+    
+    
+  P.S. more versions you can see on page https://nodejs.org/dist/
+    `);
+});
 
 program.parse(process.argv);
 

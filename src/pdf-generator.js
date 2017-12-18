@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
 const {exec} = require('child_process');
 const colors = require('colors/safe');
@@ -207,8 +206,4 @@ class PdfGenerator {
 
 }
 
-exports.PdfGenerator = PdfGenerator;
-
-exports.create = function (config) {
-    return new PdfGenerator(config);
-};
+module.exports = PdfGenerator;

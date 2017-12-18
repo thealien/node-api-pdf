@@ -1,13 +1,12 @@
 const path = require('path');
-const currentVersion = process.version;
 const outDir = path.resolve(process.cwd());
 
 module.exports = {
     docs: {
         '0.10': {
-            enabled: false
+            enabled: true
         },
-        '0.12': {
+        0.12: {
             enabled: false
         },
         4: {
@@ -28,9 +27,11 @@ module.exports = {
         9: {
             enabled: false
         },
+        latest: {
+            enabled: false
+        },
         current: {
-            name: currentVersion,
-            enabled: true
+            enabled: false
         }
     },
 

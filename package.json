@@ -16,9 +16,16 @@
   ],
   "dependencies": {
     "colors": "1.1.2",
-    "configaro": "0.0.3",
+    "commander": "^2.12.2",
     "electron-pdf": "1.2.2",
     "numeral": "1.5.6"
   },
-  "main":"src/pdf-generator"
+  "main": "src/pdf-generator",
+  "bin": "index",
+  "scripts": {
+    "start": "node index"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  }
 }

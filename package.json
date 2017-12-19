@@ -1,7 +1,7 @@
 {
   "name": "node-api-pdf",
   "description": "Simple utility to create PDF version of Node.js API docs",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "Roman Ziva <roman.ziva@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -15,9 +15,17 @@
     "Node.js documentation"
   ],
   "dependencies": {
-    "colors": "^1.1.2",
-    "configaro": "0.0.3",
-    "electron-pdf": "^1.2.2",
-    "numeral": "^1.5.6"
+    "colors": "1.1.2",
+    "commander": "2.12.2",
+    "electron-pdf": "1.2.2",
+    "numeral": "1.5.6"
+  },
+  "main": "src/pdf-generator",
+  "bin": "index",
+  "scripts": {
+    "start": "node index"
+  },
+  "engines": {
+    "node": ">=4.0.0"
   }
 }

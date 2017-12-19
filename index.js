@@ -1,25 +1,118 @@
 'use strict';
 
-const PdfGenerator = require('./lib/pdf-generator');
+const PdfGenerator = require('./src/pdf-generator');
+const promiseSerial = require('./src/promise-serial');
+const program = require('commander');
+const MODULE_NAME = 'node-api-pdf';
 
-const config = require('./config');
-const docs = config.docs;
-const pdf = PdfGenerator.create(config.pdfGenerator);
+const defaultConfig = require('./config.js');
+const customConfig = {};
 
-// thx to https://hackernoon.com/functional-javascript-resolving-promises-sequentially-7aac18c4431e
-const promiseSerial = funcs =>
-    funcs.reduce(
-        (promise, func) => promise.then(result => func().then(Array.prototype.concat.bind(result))),
-        Promise.resolve([])
-    );
+//////////////////////////
+// handle args and options
+//////////////////////////
 
-const tasks = Object.keys(docs).filter(version => docs[version].enabled !== false).map(version => {
+let versions = [];
+
+program.arguments('[versions...]', 'Node.js version. By default it is "current". Also can be "latest", strict version ' +
+    'like "7.10.0" or major version like "7" (it means latest 7.x). And of course you can list versions with space like ' +
+    '"current 4 latest"')
+    .action(argVersions => {
+        if (argVersions.length) {
+            versions = argVersions.map(v => v.trim()).filter(v => v.length);
+        }
+    });
+
+program.option('-o, --output', 'Output directory (if no configured CWD will be used)');
+program.option('-x, --use-xvfb', 'Use it if run on system without a graphical environment. Please install "xvfb" before ' +
+    '(like "sudo apt-get install xvfb" or equivalent)');
+program.option('-c, --config <customConfigFile>', 'Custom config file (js/json) where listed Node.js versions and ' +
+    'render options. Example available in documentation or check "config.js" file placed in module distr');
+
+program.on('--help', () => {
+    console.log(`
+
+  Examples:
+
+    $ ${MODULE_NAME}                                            create pdf for installed Node.js version
+    $ ${MODULE_NAME} current                                    ...the same...
+    $ ${MODULE_NAME} 9.3.0                                      now for 9.3.0 version
+    $ ${MODULE_NAME} 8 --output ~/node-docs/                    create pdf for latest 8.x and save to ~/node-docs/
+    $ ${MODULE_NAME} latest --use-xvfb                          create pdf for latest version and use xvfb because of 
+                                                              system has not graphical environment
+    $ ${MODULE_NAME} 6 8.9.3 -x --config ~/custom-config.json   create pdf for latest versions of 6.x, 8.9.3 using xvfb 
+                                                              and config from ~/custom-config.json 
+    
+    
+  P.S. more versions you can see on page https://nodejs.org/dist/
+    `);
+});
+
+program.parse(process.argv);
+
+// .option('--version <items>', 'Node.js version. By default it is "current". Also can be "latest", strict version like "7.10.0" or major version like "7" (it means latest 7.x). And of course you can list verions with commas like "current, 4, latest"', parseVersions)
+
+// read custom config option
+if (program.config) {
+    try {
+        const config = Object.assign({}, require(program.config));
+        customConfig.docs = Object.assign({}, config.docs);
+        customConfig.pdfGenerator = Object.assign({}, config.pdfGenerator);
+    } catch (e) {
+        console.error(`Error occurred while loading custom config file "${customConfig}"`, e);
+    }
+}
+
+// prepare docs config
+let docs;
+switch (true) {
+    // from args
+    case versions.length > 0:
+        docs = {};
+        [...new Set(versions)].forEach(v => {
+            docs[v] = {};
+        });
+        break;
+
+    // from custom config
+    case !!program.config:
+        docs = customConfig.docs || {};
+        break;
+
+    // from default module config
+    default:
+        docs = defaultConfig.docs;
+}
+
+// prepare final config for pdf generator
+const pdfGeneratorConfig = Object.assign({}, defaultConfig.pdfGenerator, customConfig.pdfGenerator);
+// xvfb option
+if (typeof program.useXvfb === 'boolean') {
+    pdfGeneratorConfig.xvfb = program.useXvfb;
+}
+// out option
+if (program.out) {
+    pdfGeneratorConfig.out = program.out;
+}
+
+// pdf generator instance
+const pdf = new PdfGenerator(pdfGeneratorConfig);
+
+// final docs
+const docsVersions = Object.keys(docs).filter(version => docs[version].enabled !== false);
+
+// render tasks as Promise
+const tasks = docsVersions.map(version => {
     const renderOptions = docs[version];
     return () => pdf.gen(version, renderOptions)
         .then(result => result)
         .catch(error => console.error(error));
 });
 
-promiseSerial(tasks)
-    .then(result => console.log(`All done:\n - ${result.join("\n - ")}`))
-    .catch(console.error.bind(console));
+if (tasks.length) {
+    promiseSerial(tasks)
+        .then(result => console.log(`All done:\n - ${result.join("\n - ")}`))
+        .catch(error => console.error(error));
+} else {
+    console.log('Nothing to render.');
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const exec = require('child_process').exec;
+const {exec} = require('child_process');
 const colors = require('colors/safe');
 const numeral = require('numeral');
 
@@ -75,7 +75,13 @@ class PdfGenerator {
      * @param styles
      * @returns {*}
      */
-    gen (version, {url = this.resolveApiDocUrl(version), hide, styles}) {
+    gen (version, {hide, styles}) {
+        version = this.normalizeApiVersion(version);
+        if (!version) {
+            return Promise.reject('Wrong version');
+        }
+
+        const url = this.resolveApiDocUrl(version);
         const filename = `${version}.pdf`;
         const filepath = path.join(this.out, filename);
         const name = version;
@@ -159,7 +165,7 @@ class PdfGenerator {
         worker.stdout.on('data', message => this.log(`-> ${message}`));
         worker.stderr.on('data', message => this.log(`[!] ${message}`, 'red'));
 
-        this.log(`Create PDF for "${name}" version Node.js API Documentation:`, 'yellow');
+        this.log(`Create PDF for "${name}" Node.js API Documentation:`, 'yellow');
 
         return new Promise((resolve, reject) => {
             worker.on('error', err => {
@@ -175,10 +181,29 @@ class PdfGenerator {
         });
     }
 
+    normalizeApiVersion (version) {
+        // current or latest version
+        if (version === 'latest') {
+            return version;
+        }
+
+        if (version === 'current') {
+            return process.version;
+        }
+
+        // major version
+        if (/^(0\.)?\d+$/.test(version)) {
+            return `latest-v${version}.x`;
+        }
+
+        // strict version
+        if (/^\d+\.\d+\.\d+$/.test(version)) {
+            return version;
+        }
+        this.log(`[!!!] Passed version "${version}" ignored. Can be "current", "latest", X or X.Y.Z`, 'red');
+        return false;
+    }
+
 }
 
-exports.PdfGenerator = PdfGenerator;
-
-exports.create = function (config) {
-    return new PdfGenerator(config);
-};
+module.exports = PdfGenerator;

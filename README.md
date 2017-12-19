@@ -11,12 +11,33 @@ Installation
 $ npm install -g node-api-pdf
 ```
 
-One thing: for gnu/linux installations without a graphical environment install `xvfb` before
+One thing: for gnu/linux without a graphical environment install `xvfb` before
 ```bash
 $ sudo apt-get install xvfb # or equivalent
 ```
 
-Usage examples
+Command Line Usage
+---
+
+```
+Usage: index [options] [versions...]
+
+  Versions:
+
+    This is Node.js version. By default it is "current". Also can be "latest", strict version like "7.10.0" or major
+    version like "7" (it means latest 7.x). And of course you can list versions with space like "current 4 latest
+
+  Options:
+
+    -o, --output                     Output directory (if no configured CWD will be used)
+    -x, --use-xvfb                   Use it if run on system without a graphical environment.
+                                     Please install "xvfb" before (like "sudo apt-get install xvfb" or equivalent)
+    -c, --config <customConfigFile>  Custom config file (js/json) where listed Node.js versions and render options.
+                                     Example available in documentation or check "config.js" file placed in module distr
+    -h, --help                       output usage information
+```
+
+Examples
 ---
 
 Create pdf for installed Node.js version

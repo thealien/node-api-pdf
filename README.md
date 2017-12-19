@@ -25,7 +25,7 @@ Usage: index [options] [versions...]
   Versions:
 
     This is Node.js version. By default it is "current". Also can be "latest", strict version like "7.10.0" or major
-    version like "7" (it means latest 7.x). And of course you can list versions with space like "current 4 latest
+    version like "7" (it means latest 7.x). And of course you can list versions with space like "current 4 latest"
 
   Options:
 

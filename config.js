@@ -4,7 +4,7 @@ const outDir = path.resolve(process.cwd());
 module.exports = {
     docs: {
         '0.10': {
-            enabled: true
+            enabled: false
         },
         0.12: {
             enabled: false
@@ -31,7 +31,7 @@ module.exports = {
             enabled: false
         },
         current: {
-            enabled: false
+            enabled: true
         }
     },
 
